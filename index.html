@@ -37,18 +37,19 @@
     </script>
     
     <style>
-        /* Foto de capa atualizada para um salão de alto padrão expansivo */
+        /* Foto de capa atualizada com correção definitiva para mobile */
         .hero-bg {
-            background-image: linear-gradient(rgba(17,17,17,0.7), rgba(17,17,17,0.95)), url('https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-color: #111111;
+            background-image: linear-gradient(rgba(17,17,17,0.7), rgba(17,17,17,0.95)), url('https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
-        /* Correção para garantir que a imagem do banner carregue em dispositivos móveis (especialmente iOS) */
-        @media (max-width: 1024px) {
+        /* O efeito paralaxe agora é ativado APENAS em computadores, evitando o bug do iOS */
+        @media (min-width: 1025px) {
             .hero-bg {
-                background-attachment: scroll;
+                background-attachment: fixed;
             }
         }
 
