@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valeronne - Salão de Beleza e Estética</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#C8A97E',
+                            light: '#E3CFA8',
+                            dark: '#A68A5E'
+                        },
+                        dark: {
+                            DEFAULT: '#111111',
+                            lighter: '#1a1a1a',
+                            panel: '#0a0a0a'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Foto de capa atualizada para um salão de alto padrão expansivo */
+        .hero-bg {
+            background-image: linear-gradient(rgba(17,17,17,0.7), rgba(17,17,17,0.95)), url('https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .text-shadow-gold {
+            text-shadow: 0 0 25px rgba(200, 169, 126, 0.5);
+        }
+        
+        /* Classes para animações de entrada ao fazer scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Comportamento do menu para dispositivos móveis */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* Estilos do sistema de Accordion para a seção de FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            opacity: 0;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Efeito de hover nas imagens da Galeria */
+        .gallery-img {
+            filter: grayscale(80%) brightness(0.7);
+            transition: all 0.5s ease;
+        }
+        .gallery-img:hover {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-dark text-gray-100 font-montserrat antialiased selection:bg-gold selection:text-dark">
+
+    <header id="main-header" class="fixed w-full top-0 z-50 bg-transparent py-5 px-6 md:px-12 flex justify-between items-center transition-all duration-500">
+        <a href="#home" class="flex items-center gap-4 group">
+            <div class="text-4xl font-cinzel text-gold italic pr-2 border-r border-gold/30 group-hover:text-gold-light transition-colors">V</div>
+            <div class="flex flex-col">
+                <span class="font-cinzel text-xl tracking-[0.2em] text-gold font-semibold group-hover:text-gold-light transition-colors">VALERONNE</span>
+                <span class="text-[0.65rem] tracking-[0.15em] text-gray-400 uppercase">Beleza e Estética</span>
+            </div>
+        </a>
+
+        <button id="menu-btn" class="xl:hidden text-gold hover:text-gold-light focus:outline-none">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+
+        <nav class="hidden xl:block">
+            <ul class="flex gap-8 items-center">
+                <li><a href="#home" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">Início</a></li>
+                <li><a href="#conceito" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">O Espaço</a></li>
+                <li><a href="#servicos" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">Serviços</a></li>
+                <li><a href="#equipe" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">Equipe</a></li>
+                <li><a href="#galeria" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">Galeria</a></li>
+                <li><a href="#faq" class="text-xs uppercase tracking-wider hover:text-gold transition-colors duration-300">FAQ</a></li>
+                <li>
+                    <a href="https://www.instagram.com/ateliebelezaeestetica" target="_blank" class="text-xs uppercase tracking-wider border border-gold text-gold px-5 py-2.5 hover:bg-gold hover:text-dark transition-all duration-300 flex items-center gap-2">
+                        <span>Instagram</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="mobile-menu" class="fixed top-[88px] left-0 w-full bg-dark-panel/95 backdrop-blur-md border-b border-gold/20 z-40 xl:hidden flex flex-col items-center py-6 shadow-2xl">
+        <a href="#home" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 border-b border-gold/10 mobile-link">Início</a>
+        <a href="#conceito" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 border-b border-gold/10 mobile-link">O Espaço</a>
+        <a href="#servicos" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 border-b border-gold/10 mobile-link">Serviços</a>
+        <a href="#equipe" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 border-b border-gold/10 mobile-link">Equipe</a>
+        <a href="#galeria" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 border-b border-gold/10 mobile-link">Galeria</a>
+        <a href="#contato" class="text-sm uppercase tracking-wider hover:text-gold transition-colors w-full text-center py-3 mobile-link">Contato</a>
+    </div>
+
+    <section id="home" class="hero-bg min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-20 relative">
+        <div class="fade-in-section flex flex-col items-center z-10">
+            <div class="w-px h-24 bg-gradient-to-b from-transparent to-gold mb-8"></div>
+            <h1 class="font-cinzel text-5xl md:text-7xl lg:text-[7rem] text-gold mb-6 tracking-[0.1em] text-shadow-gold leading-tight">VALERONNE</h1>
+            <p class="text-gray-300 tracking-[0.3em] uppercase text-xs md:text-sm mb-6 font-light">O Seu Novo Padrão de</p>
+            <p class="font-cinzel text-2xl md:text-3xl text-gold-light mb-12 tracking-widest">BELEZA E ESTÉTICA</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#servicos" class="px-8 py-4 border border-gold/50 bg-dark/50 backdrop-blur-sm text-gold uppercase tracking-[0.15em] text-xs font-semibold hover:bg-gold/10 transition-colors duration-300">
+                    Conheça os Serviços
+                </a>
+                <a href="#contato" class="group relative px-8 py-4 border border-gold overflow-hidden bg-gold">
+                    <div class="absolute inset-0 bg-gold-light translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
+                    <span class="relative font-montserrat uppercase tracking-[0.15em] text-xs font-semibold text-dark transition-colors duration-300">Agendar Avaliação</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce opacity-70">
+            <span class="text-[10px] uppercase tracking-widest text-gold mb-2">Scroll</span>
+            <div class="w-px h-8 bg-gold"></div>
+        </div>
+    </section>
+
+    <section id="conceito" class="bg-dark-lighter py-32 px-6 md:px-20 lg:px-40 flex flex-col lg:flex-row gap-16 items-center overflow-hidden">
+        <div class="flex-1 text-center lg:text-left fade-in-section">
+            <p class="text-gold uppercase tracking-widest text-xs mb-4">A Experiência Valeronne</p>
+            <h2 class="font-cinzel text-3xl md:text-5xl text-gray-100 mb-6 leading-tight">Sofisticação em<br><span class="text-gold">Cada Detalhe</span></h2>
+            <div class="h-px w-20 bg-gold/50 mx-auto lg:mx-0 mb-8"></div>
+            <p class="text-gray-400 font-light leading-relaxed mb-6 text-sm md:text-base text-justify">
+                A Valeronne foi concebida para ser um marco na sua rotina de autocuidado. Com uma estrutura imponente e arquitetura de alto padrão, nosso espaço reflete luxo e exclusividade, projetado para oferecer o salão de beleza e estética mais completo da região.
+            </p>
+            <p class="text-gray-400 font-light leading-relaxed mb-8 text-sm md:text-base text-justify">
+                De ambientes minuciosamente decorados com iluminação indireta a cortinas que garantem total privacidade, tudo foi pensado para acolher você. Dispomos de alas dedicadas para cabelos, unhas, maquiagem e salas clínicas isoladas para tratamentos estéticos avançados.
+            </p>
+            
+            <div class="grid grid-cols-2 gap-6 text-left border-t border-gold/20 pt-8 mt-8">
+                <div>
+                    <h4 class="font-cinzel text-gold text-lg mb-2">Privacidade</h4>
+                    <p class="text-gray-500 text-xs">Salas individuais e tratamentos VIP.</p>
+                </div>
+                <div>
+                    <h4 class="font-cinzel text-gold text-lg mb-2">Conforto Absoluto</h4>
+                    <p class="text-gray-500 text-xs">Ambiente climatizado e iluminação relaxante.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex-1 w-full relative fade-in-section">
+            <div class="absolute -inset-4 border border-gold/30 translate-x-4 translate-y-4"></div>
+            <div class="grid grid-cols-2 gap-4 relative z-10">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Interior luxuoso 1" class="w-full h-64 object-cover grayscale-[30%] shadow-lg">
+                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Interior luxuoso 2" class="w-full h-64 object-cover grayscale-[30%] shadow-lg translate-y-8">
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="bg-dark py-32 px-6 md:px-12 lg:px-24">
+        <div class="text-center mb-20 fade-in-section">
+            <h2 class="font-cinzel text-3xl md:text-5xl text-gold mb-4">Menu de Serviços</h2>
+            <p class="text-gray-400 uppercase tracking-widest text-xs">Um portfólio completo para a sua beleza</p>
+            <div class="h-px w-24 bg-gold mx-auto mt-6"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Cabelos -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cabelos" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Cabelo & Styling</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Corte Visagista</span></li>
+                        <li class="flex justify-between"><span>Coloração & Mechas</span></li>
+                        <li class="flex justify-between"><span>Terapia Capilar</span></li>
+                        <li class="flex justify-between"><span>Penteados & Escovas</span></li>
+                        <li class="flex justify-between"><span>Alinhamento Térmico</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Estética Facial -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group" style="transition-delay: 100ms;">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Estética Facial" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Estética Facial</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Harmonização Facial</span></li>
+                        <li class="flex justify-between"><span>Limpeza de Pele Profunda</span></li>
+                        <li class="flex justify-between"><span>Microagulhamento</span></li>
+                        <li class="flex justify-between"><span>Peeling Químico</span></li>
+                        <li class="flex justify-between"><span>Revitalização Facial</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Maquiagem e Sobrancelhas -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group" style="transition-delay: 200ms;">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Maquiagem" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Make & Brows</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Maquiagem Social</span></li>
+                        <li class="flex justify-between"><span>Produção para Noivas</span></li>
+                        <li class="flex justify-between"><span>Micropigmentação</span></li>
+                        <li class="flex justify-between"><span>Design de Sobrancelhas</span></li>
+                        <li class="flex justify-between"><span>Lash Lifting</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Estética Corporal -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group" style="transition-delay: 300ms;">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Estética Corporal" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Estética Corporal</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Drenagem Linfática</span></li>
+                        <li class="flex justify-between"><span>Massagem Modeladora</span></li>
+                        <li class="flex justify-between"><span>Depilação a Laser</span></li>
+                        <li class="flex justify-between"><span>Tratamento para Celulite</span></li>
+                        <li class="flex justify-between"><span>Protocolos de Redução</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Spa e Relaxamento -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group" style="transition-delay: 400ms;">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Spa" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Spa Valeronne</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Massagem Relaxante</span></li>
+                        <li class="flex justify-between"><span>Pedras Quentes</span></li>
+                        <li class="flex justify-between"><span>Spa dos Pés e Mãos</span></li>
+                        <li class="flex justify-between"><span>Banhos Terapêuticos</span></li>
+                        <li class="flex justify-between"><span>Day Spa Noivas</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Unhas / Nail Bar -->
+            <div class="fade-in-section bg-dark-panel border border-gold/10 hover:border-gold/50 transition-colors duration-300 group" style="transition-delay: 500ms;">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Nail Bar" class="w-full h-full object-cover brightness-50 group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <h3 class="font-cinzel text-2xl text-gold mb-4 border-b border-gold/20 pb-4">Nail Bar</h3>
+                    <ul class="text-gray-400 text-sm space-y-3 font-light">
+                        <li class="flex justify-between"><span>Manicure & Pedicure</span></li>
+                        <li class="flex justify-between"><span>Alongamento em Fibra</span></li>
+                        <li class="flex justify-between"><span>Alongamento em Gel</span></li>
+                        <li class="flex justify-between"><span>Esmaltação em Gel</span></li>
+                        <li class="flex justify-between"><span>Nail Art Exclusiva</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-16 fade-in-section">
+            <a href="#contato" class="inline-block px-10 py-4 border border-gold text-gold uppercase tracking-[0.15em] text-xs font-semibold hover:bg-gold hover:text-dark transition-colors duration-300">Solicitar Catálogo Completo</a>
+        </div>
+    </section>
+
+    <section id="equipe" class="bg-dark-lighter py-32 px-6 md:px-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 fade-in-section">
+                <h2 class="font-cinzel text-3xl md:text-5xl text-gold mb-4">Nossos Especialistas</h2>
+                <p class="text-gray-400 uppercase tracking-widest text-xs">Profissionais de excelência ao seu dispor</p>
+                <div class="h-px w-24 bg-gold mx-auto mt-6"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                <!-- Profissional 1 -->
+                <div class="text-center fade-in-section group">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-2 border-gold/30 group-hover:border-gold transition-colors duration-300">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Especialista" class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-cinzel text-xl text-gold mb-1">Dra. Helena</h4>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">Estética Avançada</p>
+                </div>
+                <!-- Profissional 2 -->
+                <div class="text-center fade-in-section group" style="transition-delay: 100ms;">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-2 border-gold/30 group-hover:border-gold transition-colors duration-300">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Especialista" class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-cinzel text-xl text-gold mb-1">Marina Silva</h4>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">Master Hair Stylist</p>
+                </div>
+                <!-- Profissional 3 -->
+                <div class="text-center fade-in-section group" style="transition-delay: 200ms;">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-2 border-gold/30 group-hover:border-gold transition-colors duration-300">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Especialista" class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-cinzel text-xl text-gold mb-1">Camila Costa</h4>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">Nail Designer</p>
+                </div>
+                <!-- Profissional 4 -->
+                <div class="text-center fade-in-section group" style="transition-delay: 300ms;">
+                    <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-2 border-gold/30 group-hover:border-gold transition-colors duration-300">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Especialista" class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <h4 class="font-cinzel text-xl text-gold mb-1">Rafael Santos</h4>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest">Make & Brows</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="bg-dark py-20 px-2 md:px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+            <div class="overflow-hidden aspect-square fade-in-section"><img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover gallery-img" alt="Detalhe ambiente"></div>
+            <div class="overflow-hidden aspect-square fade-in-section"><img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover gallery-img" alt="Produtos"></div>
+            <div class="overflow-hidden aspect-square fade-in-section"><img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover gallery-img" alt="Procedimento"></div>
+            <div class="overflow-hidden aspect-square fade-in-section"><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover gallery-img" alt="Espelho"></div>
+        </div>
+    </section>
+
+    <section class="bg-dark-panel py-32 px-6 md:px-20 text-center border-y border-gold/10">
+        <div class="max-w-4xl mx-auto fade-in-section">
+            <div class="text-gold mb-8 flex justify-center gap-2">
+                <!-- Estrelas de Avaliação -->
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            </div>
+            <p class="font-cinzel text-2xl md:text-3xl text-gray-300 italic mb-6">"A Valeronne não é apenas um salão, é uma experiência de renovação. O ambiente é um luxo, o atendimento é impecável e os profissionais são verdadeiros artistas. Me sinto única a cada visita."</p>
+            <p class="text-gold tracking-widest uppercase text-sm font-semibold">— Amanda Rodrigues</p>
+        </div>
+    </section>
+
+    <section id="faq" class="bg-dark py-32 px-6 md:px-20 max-w-4xl mx-auto">
+        <div class="text-center mb-16 fade-in-section">
+            <h2 class="font-cinzel text-3xl text-gold mb-4">Dúvidas Frequentes</h2>
+            <div class="h-px w-24 bg-gold mx-auto mt-4"></div>
+        </div>
+        
+        <div class="space-y-4 fade-in-section">
+            <div class="faq-item border border-gold/20 bg-dark-panel p-6 cursor-pointer">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-cinzel text-gold text-lg">Preciso agendar com antecedência?</h4>
+                    <svg class="w-5 h-5 text-gold faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer text-gray-400 font-light text-sm">
+                    Sim. Para garantirmos a excelência e exclusividade no seu atendimento, trabalhamos apenas com horários agendados. Recomendamos marcar com pelo menos 48h de antecedência.
+                </div>
+            </div>
+            <div class="faq-item border border-gold/20 bg-dark-panel p-6 cursor-pointer">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-cinzel text-gold text-lg">Vocês oferecem pacotes para noivas?</h4>
+                    <svg class="w-5 h-5 text-gold faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer text-gray-400 font-light text-sm">
+                    Sim! O nosso "Dia da Noiva Valeronne" é uma experiência completa que inclui penteado, maquiagem, spa relaxante e sala exclusiva para se arrumar com conforto junto às madrinhas.
+                </div>
+            </div>
+            <div class="faq-item border border-gold/20 bg-dark-panel p-6 cursor-pointer">
+                <div class="flex justify-between items-center">
+                    <h4 class="font-cinzel text-gold text-lg">Quais formas de pagamento são aceitas?</h4>
+                    <svg class="w-5 h-5 text-gold faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="faq-answer text-gray-400 font-light text-sm">
+                    Aceitamos cartões de crédito e débito das principais bandeiras, Pix e transferência bancária. Tratamentos estéticos podem ser parcelados mediante consulta.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="bg-dark-lighter py-24 px-6 md:px-20 border-t border-gold/10">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-16 fade-in-section">
+            <div class="flex-1">
+                <h2 class="font-cinzel text-3xl text-gold mb-8">Informações e Reservas</h2>
+                <p class="text-gray-400 font-light mb-8 text-sm">
+                    O nosso espaço foi projetado para elevar o seu bem-estar. Agende o seu momento Valeronne com a nossa equipe de recepção.
+                </p>
+                
+                <div class="space-y-8">
+                    <div class="flex items-start gap-4">
+                        <div class="text-gold mt-1 bg-dark p-3 rounded-full border border-gold/30">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-gold font-cinzel text-lg mb-1">Localização</h4>
+                            <p class="text-gray-400 text-sm font-light">Rua da Beleza, 1031 - Bairro Nobre<br>Sua Cidade - Estado, CEP 00000-000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="text-gold mt-1 bg-dark p-3 rounded-full border border-gold/30">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-gold font-cinzel text-lg mb-1">Horário de Funcionamento</h4>
+                            <p class="text-gray-400 text-sm font-light">Terça a Sexta: 09h às 20h<br>Sábados: 08h às 18h<br>Segundas: Fechado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex-1 bg-dark p-10 border border-gold/20 flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl text-gold/5 font-cinzel italic select-none">V</div>
+                <h3 class="font-cinzel text-2xl text-gold mb-4 relative z-10">Agende seu Momento</h3>
+                <p class="text-gray-400 text-sm font-light mb-8 relative z-10">A nossa equipe de concierges está pronta para lhe atender de forma personalizada pelo WhatsApp.</p>
+                <a href="#" class="w-full block bg-gold text-dark font-semibold py-4 uppercase tracking-widest text-sm hover:bg-gold-light transition-colors relative z-10">
+                    Falar com Recepção
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark py-12 px-6 text-center border-t border-gold/20">
+        <div class="max-w-2xl mx-auto flex flex-col items-center">
+            <span class="font-cinzel text-3xl tracking-[0.2em] text-gold mb-2">VALERONNE</span>
+            <p class="text-gray-500 text-[10px] tracking-widest uppercase mb-8">Salão Completo • Beleza e Estética</p>
+            
+            <div class="flex gap-6 mb-10">
+                <a href="https://www.instagram.com/ateliebelezaeestetica" target="_blank" class="w-10 h-10 rounded-full border border-gold/50 flex items-center justify-center text-gold hover:bg-gold hover:text-dark transition-all duration-300">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+            </div>
+            
+            <p class="text-gray-600 text-xs">
+                &copy; 2026 Valeronne. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <a href="#" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 z-50 flex items-center justify-center" aria-label="WhatsApp">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 2.136.561 4.218 1.624 6.046l-1.652 6.04 6.177-1.623a11.91 11.91 0 0 0 5.839 1.53h.005c6.621 0 11.99-5.367 11.99-11.988 0-3.208-1.249-6.22-3.518-8.489A11.916 11.916 0 0 0 12.017 0zm0 21.998h-.004a9.923 9.923 0 0 1-5.06-1.378l-.362-.214-3.766.988.995-3.674-.236-.375a9.924 9.924 0 0 1-1.517-5.359c0-5.485 4.464-9.95 9.951-9.95 2.658 0 5.158 1.036 7.037 2.915a9.914 9.914 0 0 1 2.915 7.036c0 5.485-4.464 9.948-9.949 9.948zm5.46-7.464c-.299-.15-1.771-.875-2.045-.975-.274-.1-.474-.15-.674.15-.201.3-.775.975-.95 1.175-.175.2-.35.225-.65.075-.299-.15-1.263-.466-2.404-1.485-.888-.792-1.488-1.77-1.663-2.07-.175-.3-.018-.462.132-.612.135-.135.299-.35.45-.525.15-.175.201-.3.299-.5.1-.2.05-.375-.025-.525-.075-.15-.674-1.625-.924-2.225-.245-.584-.492-.504-.674-.514-.175-.01-.375-.01-.575-.01s-.525.075-.799.375c-.274.3-1.049 1.025-1.049 2.5s1.074 2.875 1.224 3.075c.15.2 2.099 3.2 5.072 4.484.707.305 1.258.487 1.688.624.71.226 1.356.194 1.867.117.575-.086 1.771-.725 2.021-1.425.25-.7.25-1.3.175-1.425-.075-.125-.275-.2-.575-.35z"/></svg>
+    </a>
+
+    <script>
+        // Transição do Cabeçalho
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-dark/95', 'backdrop-blur-md', 'border-b', 'border-gold/20', 'py-3');
+                header.classList.remove('bg-transparent', 'py-5');
+            } else {
+                header.classList.add('bg-transparent', 'py-5');
+                header.classList.remove('bg-dark/95', 'backdrop-blur-md', 'border-b', 'border-gold/20', 'py-3');
+            }
+        });
+
+        // Menu Mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(faq => faq.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Animação Fade In ao fazer scroll
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+        const appearOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        fadeElements.forEach(el => appearOnScroll.observe(el));
+    </script>
+</body>
+</html>
