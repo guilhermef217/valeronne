@@ -44,6 +44,14 @@
             background-position: center;
             background-attachment: fixed;
         }
+
+        /* Correção para garantir que a imagem do banner carregue em dispositivos móveis (especialmente iOS) */
+        @media (max-width: 1024px) {
+            .hero-bg {
+                background-attachment: scroll;
+            }
+        }
+
         .text-shadow-gold {
             text-shadow: 0 0 25px rgba(200, 169, 126, 0.5);
         }
